@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="stylesheet.css">
+    <title>Home</title>
+    <style>div {text-align: center;}</style>
+	<style>
+	table, th, td {
+	border: 1px solid;
+	}
+	</style>
+</head>
+<body>
+    <script src="text.js"></script>
+    <script src="video.js"></script>
+    <section id="navigation">
+        <div class="nav-container">
+            <div class="brand">
+                <a href="#!">Quizophilia</a>
+            </div>
+            <nav>
+                <div class="nav-mobile"><a id="nav-toggle" href="#!"><span></span></a></div>
+                <ul class="nav-list">
+                    <li>
+                        <a href="#home">Home</a>
+                    </li>
+                    <li>
+                        <a href="#about">About</a>
+                    </li>
+                    <li>
+                        <a href="#partners">Partners</a>
+
+                    </li>
+                    <li>
+                        <a href="#contact">Contact</a>
+
+                    </li>
+                    <li>
+                        <a href="#!">Contact</a>
+                    </li>
+                    <li id="signbutton">
+                        <button onclick="window.location.href='option.html'" class="sign-in" ><span>Enter</span></button></a>
+                        
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </section>
+    <div id="home"></div>
+    <div class="text-on-image">
+        <p>"Excellence in talent search since 2023"</p>
+
+        <div id="call">
+            <button class=" sign-in" style="position: relative;
+            top: 200px;width:50%;
+              "> <span>Leaderboards</span></button>
+        </div>
+    </div>
+    <div id="about">
+        <svg width="200" height="100">
+            <text x="20" y="100" font-size="30" font-weight="bold" fill="#fff">TUTORIAL   </text>
+        </svg>
+        <div ng-app="videoPlayerApp" ng-controller="VideoPlayerController">
+            <video id="myVideo" width="200" height="200" controls>
+              <source src="movie.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+            <br>
+            <button ng-click="skip(-20)">Rewind 20s</button>
+            <button ng-click="skip(20)">Fast Forward 20s</button>
+            <button ng-click="pauseVid()">Pause</button>
+            <button ng-click="playVid()">Play</button>
+            <button ng-click="restart()">Restart</button>
+        </div>
+        <div ng-app="textEditorApp" ng-controller="TextEditorController">
+            <h3>QUERIES</h3>
+            <div class="menu-bar">
+              <button ng-click="newFile()">New</button>
+              <button ng-click="openFile()">Open</button>
+              <button ng-click="saveFile()">Save</button>
+              <button ng-click="copyText()">Copy</button>
+              <button ng-click="pasteText()">Paste</button>
+            </div>
+          
+            <div class="editor">
+              <textarea ng-model="content"></textarea>
+            </div>
+        </div>
+    </div>
+
+    <div id="partners">
+        <h1 style="text-align: center;" class="hidden"><br><br>Our Partners<br><br></h1>
+        
+        <div class="job">
+            <img src="1.jpg" alt="">
+        </div>
+        <div class="job">
+            <img src="2.jpg" alt="">
+        <div class="job">
+            <img src="3.jpg" alt="">
+        </div>
+		<div class="job">
+            <img src="4.jpg" alt="">
+        </div>
+		<div class="job">
+            <img src="5.jpg" alt="">
+        </div>
+	</div>
+    <div id="contact">
+        <h1 class="hidden" style="text-align: center;"><br><br>Contact Us<br></h1>
+		<table>
+		  <tr>
+			<td style="text-align:center"><b>E-mail</b></td>
+			<td style="text-align:center"><b>quizophilia@gmail.com</b></td>
+		  </tr>
+		  <tr>
+			<td style="text-align:center"><b>Help-Desk</b></td>
+			<td style="text-align:center"><b>+044-2695-1048</b></td>
+		  </tr>
+		  <tr>
+			<td style="text-align:center"><b>Head Office</b></td>
+			<td style="text-align:center"><b>+044-2698-7031</b></td>
+		  </tr>
+		</table>
+    </div> 
+    <script src="script.js"></script>
+    <script src="parallaxBar.js"></script>
+</body>
+</html>

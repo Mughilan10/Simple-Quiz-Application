@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="quiz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Student Quiz Page</title>
+    <link rel="stylesheet" 
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" 
+        integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" 
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<style>
+    body{background-image: url('2384075.jpg');}
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
+    *{
+        margin: 0;
+        padding: 0;
+        font-family: 'poppins',sans-serif;
+    }
+    h1 {text-align: center;font-size: 100px; color: white;}
+</style>
+<body>
+    <div class="container">
+        
+        <div class="page-header">
+            <h1>Quiz Time!!</h1>
+        </div>
+        <div ng-controller="listCtrl as list" ng-hide="list.quizMetrics.quizActive || list.quizMetrics.resultsActive">
+            <form class="form-inline well well-sm clearfix">
+                <span class="glyphicon glyphicon-search"></span>
+                <input 
+                    type="text" 
+                    placeholder="Search..." 
+                    class="form-control"
+                    ng-model="list.search">
+                    <button onclick="window.location.href='home.html'" class="btn btn-primary pull-right">
+                        <strong>Log Out</strong>
+                    </button>
+            </form>
+            <div class="row">
+                <div class="col-sm-6" ng-repeat="turtle in list.data | filter:list.search">
+                    <div class="well well-sm">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <img ng-src="{{turtle.image_url}}" 
+                                    class="img-rounded img-responsive well-image">
+                            </div>
+                            <div class="col-md-6">
+                                <h2 style="color: #fff;"><b>{{turtle.type}}</b></h4>
+                                <h4 style="color: #fff;"><strong>Questions: </strong>{{turtle.questions}}</h4>
+                                <h4 style="color: #fff;"><strong>Negative marking: </strong>{{turtle.negative}}</h4>
+                                <button class="btn btn-primary pull-right"
+                                    ng-click="list.activateQuiz()">
+                                    <strong>Start Quiz</strong>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal" id="turtle-info">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2>{{list.activeTurtle.type}}</h2>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-xs-8 col-xs-offset-2">
+                                    <img ng-src="{{list.activeTurtle.image_url}}" class="img-rounded img-responsive">
+                                </div>
+                            </div>
+                            <div class="row top-buffer">
+                                <div class="col-md-6">
+                                    <p><strong>Locations: </strong>{{list.activeTurtle.locations}}</p>
+                                    <p><strong>Size: </strong>{{list.activeTurtle.size}}</p>
+                                    <p><strong>Average Lifespan: </strong>{{list.activeTurtle.lifespan}}</p>
+                                    <p><strong>Diet: </strong>{{list.activeTurtle.diet}}</p>
+                                </div>
+                                <div class="col-xs-12 top-buffer">
+                                    <p>{{list.activeTurtle.description}}</p>
+                                    <button class="btn btn-danger pull-right" 
+                                        data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-controller="quizCtrl as quiz" ng-show="quiz.quizMetrics.quizActive">
+            <div class="row">
+                <div class="col-xs-8">
+                    <h2 style="color: #fff;"><b>Progress:</b></h2>
+                    <div class="btn-toolbar">
+                        <button class="btn"
+                            ng-repeat="question in quiz.dataService.quizQuestions"
+                            ng-class="{'btn-info': question.selected !== null, 'btn-danger': question.selected === null}" 
+                            ng-click="quiz.setActiveQuestion($index)">
+	                        <span class="glyphicon"
+                                ng-class="{'glyphicon-pencil': question.selected !== null, 'glyphicon-question-sign': question.selected === null}"></span>
+                        </button>
+                    </div>
+                </div>
+                <div class="col-xs-4">
+                    <div class="row">
+                        <h4 style="color: #fff;"><b>Legend:</b></h4>
+                        <div class="col-sm-4">
+                            <button class="btn btn-info">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                            </button>
+                            <p style="color: #fff;">Answered</p>
+                        </div>
+                        <div class="col-sm-4">
+                            <button class="btn btn-danger">
+                                <span class="glyphicon glyphicon-question-sign"></span>
+                            </button>
+                            <p style="color: #fff;">Unanswered</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="alert alert-danger"
+                    ng-show="quiz.error">
+                    Error! You have not answered all of the questions!
+                    <button class="close" ng-click="quiz.error = false">&times</button>
+                </div>
+                <h3 style="color: #fff;"><b>Question:</b></h3>
+                <div class="well well-sm" ng-hide="quiz.finalise">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <h4 style="color: #fff;"><b>{{quiz.activeQuestion+1 + ". " + quiz.dataService.quizQuestions[quiz.activeQuestion].text}}</b></h4>
+                            <div class="row" 
+                                ng-if="quiz.dataService.quizQuestions[quiz.activeQuestion].type === 'text'">
+                                <div class="col-sm-6" ng-repeat="answer in quiz.dataService.quizQuestions[quiz.activeQuestion].possibilities">
+                                    <h4 class="answer" style="color: #0b638b;"
+                                        ng-class="{'bg-info': $index === quiz.dataService.quizQuestions[quiz.activeQuestion].selected}"
+                                        ng-click="quiz.selectAnswer($index)"><b>
+                                        {{answer.answer}}</b>
+                                    </h4>
+                                </div>
+                            </div>
+                            <div class="row"
+                                ng-if="quiz.dataService.quizQuestions[quiz.activeQuestion].type === 'image'">
+                                <div class="col-sm-6" ng-repeat="answer in quiz.dataService.quizQuestions[quiz.activeQuestion].possibilities">
+                                    <div class="image-answer"
+                                        ng-class="{'image-selected': $index === quiz.dataService.quizQuestions[quiz.activeQuestion].selected}"
+                                        ng-click="quiz.selectAnswer($index)">
+                                        <img ng-src="{{answer.answer}}">
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" ng-click="quiz.questionAnswered()">Next</button>
+                </div>
+
+                <div class="well well-sm" ng-show="quiz.finalise">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <h3 style="color: #fff;">Are you sure you want to submit your answers?</h3>
+                            <button class="btn btn-success" ng-click="quiz.finaliseAnswers()">Yes</button>
+                            <button class="btn btn-danger" ng-click="quiz.finalise = false">No</button>
+                        </div>
+                    </div>
+                </div>
+
+                
+            </div>
+        </div>
+
+		<div ng-controller="resultsCtrl as results" ng-show="results.quizMetrics.resultsActive">
+           <div class="row">
+               <div class="col-xs-8">
+                   <h2 style="color: #fff;"><b>Results:</b></h2>
+                   <div class="btn-toolbar">
+                       <button class="btn"
+                           ng-repeat="question in results.dataService.quizQuestions"
+                           ng-class="{'btn-success': question.correct, 'btn-danger': !question.correct}"
+                           ng-click="results.setActiveQuestion($index)">
+                            <span class="glyphicon"
+                                ng-class="{'glyphicon-ok': question.correct, 'glyphicon-remove': !question.correct}"></span>
+                       </button>
+                   </div>
+               </div>
+               <div class="col-xs-4">
+                   <div class="row">
+                       <h4 style="color: #fff;"><b>Legend:</b></h4>
+                       <div class="col-sm-4">
+                           <button class="btn btn-success">
+                               <span class="glyphicon glyphicon-ok"></span>
+                           </button>
+                           <p style="color: #fff;">Correct</p>
+                       </div>
+                       <div class="col-sm-4">
+                           <button class="btn btn-danger">
+                               <span class="glyphicon glyphicon-remove"></span>
+                           </button>
+                           <p style="color: #fff;">Incorrect</p>
+                       </div>
+                   </div>
+               </div>
+           </div>
+           <div class="row">
+               <div class="col-xs-12 top-buffer">
+                    <h2 style="color: #fff;">Correct Answers: {{results.quizMetrics.numCorrect}} / {{results.dataService.quizQuestions.length}}</h2>
+                    <h2 style="color: #fff;"><strong> You Scored {{results.calculatePerc() | number:2}}%</strong></h2>
+               </div>
+           </div>
+
+           <div class="row">
+               <h3 style="color: #fff;"><b>Questions:</b></h3>
+               <div class="well well-sm">
+                   <div class="row">
+                       <div class="col-xs-12">
+                           <h4 style="color: #fff;"><b>{{results.activeQuestion+1 +". "+results.dataService.quizQuestions[results.activeQuestion].text}}</b></h4>
+                           <div class="row"
+                               ng-if="results.dataService.quizQuestions[results.activeQuestion].type === 'text'">
+                               <div class="col-sm-6" ng-repeat="answer in results.dataService.quizQuestions[results.activeQuestion].possibilities">
+                                   <h4 class="answer" style="color: #0b638b;"
+                                       ng-class="results.getAnswerClass($index)"><b>
+                                       {{answer.answer}}
+                                       <p class="pull-right" style="color: #dc061f;"
+                                            ng-show="$index !== results.quizMetrics.correctAnswers[results.activeQuestion] && $index === results.dataService.quizQuestions[results.activeQuestion].selected">Your Answer</p>
+                                       <p class="pull-right" style="color: #44d207;"
+                                            ng-show="$index === results.quizMetrics.correctAnswers[results.activeQuestion]">Correct Answer</p>
+                                        </b></h4>
+                               </div>
+                           </div>
+
+                           <div class="row"
+                               ng-if="results.dataService.quizQuestions[results.activeQuestion].type === 'image'">
+                               <div class="col-sm-6" ng-repeat="answer in results.dataService.quizQuestions[results.activeQuestion].possibilities">
+                               		<div class="image-answer"
+                                       ng-class="results.getAnswerClass($index)">
+                                       <img ng-src="{{answer.answer}}">
+                                   </div>
+                               </div>
+                           </div>
+
+
+                       </div>
+                   </div>
+               </div>
+               <button class="btn btn-primary btn-lg" ng-click="results.reset()">Back To Quiz Page</button>
+           </div>
+        </div>
+
+    </div>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0-rc.2/angular.min.js"></script>
+    <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+    <script src="js/app.js"></script>
+    <script src="js/controllers/list.js"></script>
+    <script src="js/controllers/quiz.js"></script>
+    <script src="js/controllers/results.js"></script>
+    <script src="js/factories/quizMetrics.js"></script>
+    <script src="js/factories/dataservice.js"></script>
+
+</body>
+</html>

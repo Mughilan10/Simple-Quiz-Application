@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Enter site</title>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    font-family: 'poppins',sans-serif;
+}
+h1 {text-align: center;font-size: 100px; color: white;}
+body {
+  background-image: url('2384075.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed; 
+  background-size: 100% 100%;
+}
+.button {
+  display: inline-block;
+  padding: 15px 25px;
+  font-size: 24px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: #fff;
+  background-color: #76bdd5;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 9px #c4e3ed;
+}
+.button:hover {background-color: #3ca1c3}
+.button:active {
+  background-color: #3ca1c3;
+  box-shadow: 0 5px #c4e3ed;
+  transform: translateY(4px);
+}
+.center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+.container{
+    text-align: center;
+}
+</style>
+</head>
+<body ng-app="myApp">
+<h1>Quiz Time!!</h1>
+<div style="text-align: center;" class="container">
+  <button onclick="window.location.href='stulog.html'" type="button" class="button">Login</button></a>
+  <button onclick="window.location.href='user.html'" type="button" class="button">Register</button></a>
+    <br>
+    <br>
+    <a href="#!login">Login</a>
+    <a href="#!reg">Register</a>
+    <p style="color:white">Click on the links to know about the options</p>
+    <div ng-view></div>
+    <script>
+    var app = angular.module("myApp", ["ngRoute"]);
+    app.config(function($routeProvider) {
+        $routeProvider
+        .when("/", {
+            template : "<p style='color: white'>Info</p>"
+        })
+        .when("/login", {
+            template : "<h1>Login</h1><p style='color: white'>If you know your way through the website</p>"
+        })
+        .when("/reg", {
+            template : "<h1>Register</h1><p style='color:white'>If you are new to the website</p>"
+        });
+    });
+    </script>
+    
+</div>
+</body>
+</html>
+

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>div {text-align: center;}</style>
+  <script src="text.js"></script>
+</head>
+<body>
+  <div ng-app="textEditorApp" ng-controller="TextEditorController">
+    <div class="menu-bar">
+      <button ng-click="newFile()">New</button>
+      <button ng-click="openFile()">Open</button>
+      <button ng-click="saveFile()">Save</button>
+      <button ng-click="copyText()">Copy</button>
+      <button ng-click="pasteText()">Paste</button>
+    </div>
+  
+    <div class="editor">
+      <textarea ng-model="content"></textarea>
+    </div>
+  </div>
+</body>
+</html>
+

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+	<title>Register</title>
+	<meta charset="UTF-8">
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular.min.js"></script>
+	<script src="user.js"></script>
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body ng-controller="myController">
+<div class="container">
+	<div class="header">
+		<h2>Register</h2>
+	</div>
+	<form id="form" class="form" ng-submit="addUser()">
+		<div class="form-control">
+			<label for="username">Username</label>
+			<input type="text" ng-model="name" placeholder="Username" id="username" />
+			<i class="fas fa-check-circle"></i>
+			<i class="fas fa-exclamation-circle"></i>
+			<small>Error message</small>
+		</div>
+		<div class="form-control">
+			<label for="username">Email</label>
+			<input type="email" ng-model="email" placeholder="quizchamp@student.com" id="email" />
+			<i class="fas fa-check-circle"></i>
+			<i class="fas fa-exclamation-circle"></i>
+			<small>Error message</small>
+		</div>
+		<div class="form-control">
+			<label for="username">Password</label>
+			<input type="password" placeholder="Password" id="password"/>
+			<i class="fas fa-check-circle"></i>
+			<i class="fas fa-exclamation-circle"></i>
+			<small>Error message</small>
+		</div>
+		<div class="form-control">
+			<label for="username">Confirm password</label>
+			<input type="password" ng-model="password" placeholder="Retype password" id="password2"/>
+			<i class="fas fa-check-circle"></i>
+			<i class="fas fa-exclamation-circle"></i>
+			<small>Error message</small>
+		</div>
+		<button onclick="window.location.href='index.html'" type="submit">Sign up</button>
+	</form>
+</div>
+<script src="validation.js"></script>
+</body>
+</html>

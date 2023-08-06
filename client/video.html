@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>div {text-align: center;}</style>
+  <script src="video.js"></script>
+</head>
+<body>
+  <script ></script>
+<div ng-app="videoPlayerApp" ng-controller="VideoPlayerController">
+  <video id="myVideo" width="500" height="500" controls>
+    <source src="movie.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+  <br>
+  <button ng-click="skip(-20)">Rewind 20s</button>
+  <button ng-click="skip(20)">Fast Forward 20s</button>
+  <button ng-click="pauseVid()">Pause</button>
+  <button ng-click="playVid()">Play</button>
+  <button ng-click="restart()">Restart</button>
+</div>
+</body>
+</html>
+

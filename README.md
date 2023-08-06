@@ -7,3 +7,5 @@ AngularJS was used to implement controllers and various other logics.
 Node.js and Express.js was used for server connectivity and maintenance. 
 
 MongoDB was used as the database.
+
+Refer to "Project Report.pdf" to know more.
